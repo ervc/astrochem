@@ -106,5 +106,5 @@ tests/*.trs
 networks/*.chm
 
 # Ignore ipython checkpoints
-.ipynb_checkpoints
-tests/.ipynb_checkpoints
+*.ipynb
+tests/*.ipynb
