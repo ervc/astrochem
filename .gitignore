@@ -104,3 +104,7 @@ tests/*.trs
 
 # Network files created by chmconvert
 networks/*.chm
+
+# Ignore ipython checkpoints
+.ipynb_checkpoints
+tests/.ipynb_checkpoints
