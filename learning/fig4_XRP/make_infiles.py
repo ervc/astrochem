@@ -11,19 +11,15 @@ pwd = "/Users/evancamp/astrochem/learning/fig4_XRP/"
 # Functions
 def rho(tau,z):
     AU2cm = 14959790000000 # cm AU^-1
-    solarMass = 2e33 # g
-    M = 0.05*solarMass
     r = 75*AU2cm # cm
     H = 3.5*AU2cm # cm
     z *= AU2cm # convert to cm
-    sig = sigma(10)
+    k = float(sys.argv[1]) # cm^2 g^-1
+    sig = tau/k
     mpdense = sig/(np.sqrt(2*np.pi)*H)
     zdep = np.exp(-z**2/(2*H**2))
     p = mpdense*zdep
     return p
-def sigma(tau):
-    k = float(sys.argv[1]) # cm^2 g^-1
-    return tau/k
 
 # Setup input and model files
 N = 29
@@ -52,17 +48,17 @@ for z in height:
         temp.append(45)
 temp = np.asarray(temp)
 
-sourceFile = "source.mdl"
+suffix = "_k_{}".format(sys.argv[1])
+inputFile = pwd+"input"+suffix+".ini"
+sourceFile = pwd+"source"+suffix+".mdl"
+chemFile = "/Users/evancamp/astrochem/networks/osu2009.chm"
+
 
 with open(sourceFile,"w") as f:
     f.write("# cell number, Av [mag], n(H) [cm^-3], Tgas [K], Tdust [K], Height [AU]\n")
     linenumber = 0
     for i in range(N):
         f.write("{0}\t{1}\t{2}\t{3}\t{3}\t{4}\n".format(i,A[i],n[i],temp[i],height[i]))
-
-inputFile = pwd+"input.ini"
-sourceFile = pwd+"source.mdl"
-chemFile = "/Users/evancamp/astrochem/networks/osu2009.chm"
 
 chi = 1e3
 abund = {
